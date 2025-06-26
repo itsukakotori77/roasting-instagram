@@ -2,6 +2,8 @@
 
 import { joinClass } from "@/utils/common";
 import React, { ComponentPropsWithRef, forwardRef } from "react";
+import { AtSign } from 'lucide-react';
+import { motion } from "framer-motion";
 
 export interface TextInputProps extends ComponentPropsWithRef<"input"> {
    isLoading?: boolean;
@@ -14,18 +16,29 @@ export interface TextInputProps extends ComponentPropsWithRef<"input"> {
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
    ({ className, isDisabled, isInvalid, isValid, ...props }, ref) => {
       return (
-         <input
-            ref={ref}
-            disabled={isDisabled}
-            className={joinClass(
-               "w-full bg-white border-3 border-[#0000] py-2 px-3 rounded-lg outline-none focus:border-primary/60",
-               "disabled:bg-gray-200 disabled:text-gray-400",
-               isInvalid ? "border-error" : isValid ? "border-success" : "border-gray-300",
-               className
-            )}
-            autoComplete="off"
-            {...props}
-         />
+         <div className="relative w-full">
+            <motion.div
+               animate={{
+                  x: [5, 0, 5],
+                  transition: {duration: 1.5, repeat: Infinity, repeatType: 'loop'}
+               }}
+            >
+               <AtSign className="absolute top-3 left-1.5" />
+            </motion.div>
+            <input
+               ref={ref}
+               disabled={isDisabled}
+               className={joinClass(
+                  "w-full bg-white border-3 py-2 px-3 rounded-lg outline-none focus:border-primary/60 ",
+                  "disabled:bg-gray-200 disabled:text-gray-400",
+                  "pl-10",
+                  isInvalid ? "border-error" : isValid ? "border-success" : "border-[#000]",
+                  className
+               )}
+               autoComplete="off"
+               {...props}
+            />
+         </div>
       );
    }
 );

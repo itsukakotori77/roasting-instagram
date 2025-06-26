@@ -7,7 +7,7 @@ import { joinClass } from '@/utils/common'
 import { X, Square } from 'lucide-react'
 
 const variants = cva(
-   "flex justify-center h-1/2 text-sm font-medium",
+   "flex justify-center text-sm font-medium",
    {
       variants: {
          intent: {
@@ -58,15 +58,15 @@ const Card: React.FC<CardProps> = ({
    return (
       <motion.div
          className={joinClass(variants({ intent }), className)}
-         whileHover={{
-            y: [-2, 2, -2],
-            transition: { duration: 0.3, repeat: Infinity, repeatType: "reverse" },
-         }}
+         // whileHover={{
+         //    y: [-2, 2, -2],
+         //    transition: { duration: 0.5, repeat: Infinity, repeatType: "reverse" },
+         // }}
          {...props}
       >
-         <div className="grid">
-            <div className="w-full h-4 bg-[#F37600] rounded-[3px_3px_0px_0px] outline-3 flex justify-between px-1.5 py-2.5">
-               <span className="flex items-center text-[12px]">{title}</span>
+         <div className="grid w-full">
+            <div className="w-full h-4 bg-[#F37600] rounded-[3px_3px_0px_0px] outline-3 flex justify-between px-2 py-3.5">
+               <span className="flex items-center text-md font-bold">{title}</span>
                {isClose && (
                   <div className="flex items-center">
                      <Square size={13} />
@@ -74,7 +74,7 @@ const Card: React.FC<CardProps> = ({
                   </div>
                )}
             </div>
-            <div className="px-4 py-2">
+            <div className="px-4 py-2 w-full">
                {children}
             </div>
          </div>

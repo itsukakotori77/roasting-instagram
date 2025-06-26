@@ -5,6 +5,7 @@ import TextInput, { TextInputProps } from '../BaseInput/TextInput';
 import Label, { LabelProps } from '../BaseInput/Label';
 import { Control, Controller } from 'react-hook-form'
 import { joinClass } from '@/utils/common';
+import { AtSign } from 'lucide-react';
 
 interface FieldInput extends TextInputProps {
   type?: 'text' | 'email' | 'tel' | 'password' | 'number'
@@ -63,7 +64,7 @@ const TextForm: React.FC<TextFormProps> = ({
                   }
                 }}
                 placeholder={
-                  fieldInput?.placeholder ?? `Masukkan ${fieldLabel.children}`
+                  fieldInput?.placeholder ?? `Masukkan ${typeof(fieldLabel.children)}`
                 }
                 // className={joinClass('mt-1')}
                 className={joinClass(

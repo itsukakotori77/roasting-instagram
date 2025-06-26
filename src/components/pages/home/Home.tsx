@@ -1,51 +1,61 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '@/components/global/UI/Card'
-import { Instagram } from 'lucide-react'
-import TextForm from '@/components/global/Form/Input/TextForm'
-import * as Yup from 'yup'
-import { useForm } from 'react-hook-form'
+import Form from './Form'
+import { useGetUsername } from '@/services/instagram/query'
+import LoadingProvider from '@/components/global/providers/LoadingProvides'
 
 const Home = () => {
 
-  const {
-    setValue,
-    handleSubmit,
-    control
-  } = useForm<any>({
-    mode: 'onChange'
-  })
+  const { mutate: getUsername, isPending } = useGetUsername()
+  const [isLoading, setLoading] = useState<boolean>(false)
 
+  const onSubmit = async (data?: any) => {
+    // getUsername(data.username as string, {
+    //   onSuccess: (res) => {
+    //     console.log(res)
+    //   },
+    //   onError: (err) => {
+    //     console.log(err)
+    //   }
+    // })
+
+    setLoading(true);
+    console.log('start loading');
+
+    let counter = 0;
+    const maxCount = 3; // run 5 times and stop
+
+    const interval = setInterval(() => {
+      console.log('interval running', counter + 1);
+
+      counter++;
+      if (counter >= maxCount) {
+        clearInterval(interval); // break the interval
+        setLoading(false);
+        console.log('done loading');
+      }
+    }, 300);
+  }
 
   return (
-    <div className="w-full">
-      <div className="flex justify-center items-center">
-        <Card
-          intent="primary"
-          title="Form Roasting"
-        >
-          <div className="grid p-10">
-            <div className="flex gap-1">
-              <Instagram size={20} />
-              <span className="font-bold">Instagram</span>
+    <>
+      <LoadingProvider isLoading={isLoading} />
+      <div className="w-full h-full">
+        <div className="flex justify-center items-center h-full">
+          <Card
+            intent="primary"
+            title="Roasting Dulu Boss !! 👀"
+            className="w-1/2 h-72"
+          >
+            <div className="grid p-10 w-full">
+              <Form onSubmit={onSubmit} isLoading={isLoading} />
             </div>
-            <form
-              className="w-full grid"
-              noValidate
-              autoCapitalize="off"
-              autoComplete="off"
-            >
-              <TextForm
-                fieldLabel={{ children: '', required: false }}
-                control={control}
-                name="username"
-              />
-            </form>
-          </div>
-        </Card>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
